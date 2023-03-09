@@ -5,11 +5,11 @@ namespace shopping_list
 	{
         Task<List<Item>> GetItems();
 
-        Task AddItem(Item item);
+        Task AddItem(AddItemDto item);
 
         Task RemoveItem(Guid id);
 
-        Task UpdateItem(Guid id, Item item);
+        Task UpdateItem(Guid id, AddItemDto item);
     }
 }
 

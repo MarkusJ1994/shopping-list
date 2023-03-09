@@ -20,16 +20,15 @@ public class ItemController : ControllerBase
     }
 
     [HttpPost]
-    public void Add([FromBody] Item item)
+    public void Add([FromBody] AddItemDto item)
     {      
         _itemService.AddItem(item);
     }
 
     [HttpPut]
-    public void Edit([FromBody] Item item)
+    public void Edit([FromQuery(Name = "id")] String guid, [FromBody] AddItemDto item)
     {
-        //TODO: Fix DTO for update
-        _itemService.UpdateItem(item.Id, item);
+        _itemService.UpdateItem(new Guid(guid), item);
     }
 
     [HttpDelete]

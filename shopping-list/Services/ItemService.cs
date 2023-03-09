@@ -19,7 +19,7 @@ public class ItemService : IItemService
         return DbDriver.Read<Item>("SELECT * FROM items", ItemMapper);
     }
 
-    public Task AddItem(Item item)
+    public Task AddItem(AddItemDto item)
     {
         try
         {
@@ -43,7 +43,7 @@ public class ItemService : IItemService
         }
     }
 
-    public Task UpdateItem(Guid id, Item item)
+    public Task UpdateItem(Guid id, AddItemDto item)
     {
         try
         {
