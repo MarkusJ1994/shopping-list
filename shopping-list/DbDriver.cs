@@ -6,6 +6,7 @@ namespace shopping_list;
 
 public class DbDriver
 {
+
     private static string Host = "localhost";
     private static string User = "postgres";
     private static string DBname = "postgres";
@@ -21,7 +22,7 @@ public class DbDriver
     {
     }
 
-    public static NpgsqlDataSource getDataSource()
+    public static NpgsqlDataSource GetDataSource()
     {
         if (dataSource == null)
         {
@@ -30,9 +31,9 @@ public class DbDriver
         return dataSource;
     }
 
-    public static async Task<int> insert(string sql, params NpgsqlParameter[] parameters)
+    public static async Task<int> Insert(string sql, params NpgsqlParameter[] parameters)
     {
-        var dataSource = DbDriver.getDataSource();
+        var dataSource = DbDriver.GetDataSource();
         await using (var command = dataSource.CreateCommand(sql))
         {
             command.Parameters.AddRange(parameters);
@@ -40,5 +41,29 @@ public class DbDriver
             return await command.ExecuteNonQueryAsync();
         }
     }
+
+    public delegate T Mapper<T>(NpgsqlDataReader reader);
+
+    public static async Task<List<T>> Select<T>(string sql, Mapper<T> mapper)
+    {
+        var resultSet = new List<T>();
+
+        var dataSource = DbDriver.GetDataSource();
+        await using (var command = dataSource.CreateCommand(sql))
+        {
+            await using var reader = await command.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                Console.WriteLine(reader.GetGuid(0));
+                Console.WriteLine(reader.GetString(1));
+                Console.WriteLine(reader.GetBoolean(2));
+
+                resultSet.Add(mapper(reader));                
+            }
+        }
+        return resultSet;
+    }
+
+
 
 }

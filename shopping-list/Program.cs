@@ -1,4 +1,6 @@
-﻿using shopping_list;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using shopping_list;
+using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,8 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseExceptionHandler("/error");
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

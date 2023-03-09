@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace shopping_list;
 
 [ApiController]
-[Route("[controller]")]
+[Route("/item")]
 public class ItemController : ControllerBase
 {
     readonly IItemService _itemService;
@@ -17,25 +16,26 @@ public class ItemController : ControllerBase
     [HttpGet]
     public List<Item> GetAll()
     {
-        return new List<Item> { new Item("some item", 0) };
+        return _itemService.GetItems().Result;
     }
 
     [HttpPost]
     public void Add([FromBody] Item item)
-    {
+    {      
         _itemService.AddItem(item);
     }
 
     [HttpPut]
     public void Edit([FromBody] Item item)
     {
-
+        //TODO: Fix DTO for update
+        _itemService.UpdateItem(item.Id, item);
     }
 
     [HttpDelete]
-    public void Remove([FromBody] Item item)
+    public void Remove([FromQuery(Name = "id")] String guid)
     {
-
+        _itemService.RemoveItem(new Guid(guid));
     }
 }
 

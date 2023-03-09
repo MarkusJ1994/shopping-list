@@ -3,8 +3,13 @@ namespace shopping_list
 {
 	public interface IItemService
 	{
-        void AddItem(Item item);
+        Task<List<Item>> GetItems();
 
+        Task AddItem(Item item);
+
+        Task RemoveItem(Guid id);
+
+        Task UpdateItem(Guid id, Item item);
     }
 }
 
