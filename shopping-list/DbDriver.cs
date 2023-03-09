@@ -7,16 +7,15 @@ namespace shopping_list;
 public class DbDriver
 {
 
-    private static string Host = "localhost";
-    private static string User = "postgres";
-    private static string DBname = "postgres";
-    private static string Password = "password";
-    private static string Port = "5432";
+    private static string Host = Environment.GetEnvironmentVariable("DBHOST") != null ? Environment.GetEnvironmentVariable("DBHOST")! : "localhost";
+    private static string User = Environment.GetEnvironmentVariable("DBUSER") != null ? Environment.GetEnvironmentVariable("DBUSER")! : "postgres";
+    private static string DBname = Environment.GetEnvironmentVariable("DBNAME") != null ? Environment.GetEnvironmentVariable("DBNAME")! : "postgres";
+    private static string Password = Environment.GetEnvironmentVariable("DBPASSWORD") != null ? Environment.GetEnvironmentVariable("DBPASSWORD")! : "password";
+    private static string Port = Environment.GetEnvironmentVariable("DBPORT") != null ? Environment.GetEnvironmentVariable("DBPORT")! : "5432";
 
     private static string connectionString = $"Host={Host};Username={User};Password={Password};Database={DBname};Port={Port};";
 
     private static NpgsqlDataSource? dataSource;
-
 
     public DbDriver()
     {

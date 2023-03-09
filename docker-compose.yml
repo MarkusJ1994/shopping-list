@@ -3,6 +3,7 @@ version: '3.4'
 services:
   db:
     image: postgres:latest
+    hostname: shopping-db
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -11,3 +12,16 @@ services:
     - "5432:5432"
     volumes:
     - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  app:
+    build:
+      context: ./shopping-list
+    hostname: shopping-app
+    ports:
+    - "8080:80"
+    environment:
+      DBHOST: shopping-db
+      DBUSER: postgres
+      DBPASSWORD: password
+      DBNAME: postgres
+      DBPORT: 5432
