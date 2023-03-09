@@ -31,7 +31,7 @@ public class DbDriver
         return dataSource;
     }
 
-    public static async Task<int> Insert(string sql, params NpgsqlParameter[] parameters)
+    public static async Task<int> Write(string sql, params NpgsqlParameter[] parameters)
     {
         var dataSource = DbDriver.GetDataSource();
         await using (var command = dataSource.CreateCommand(sql))
@@ -44,7 +44,7 @@ public class DbDriver
 
     public delegate T Mapper<T>(NpgsqlDataReader reader);
 
-    public static async Task<List<T>> Select<T>(string sql, Mapper<T> mapper)
+    public static async Task<List<T>> Read<T>(string sql, Mapper<T> mapper)
     {
         var resultSet = new List<T>();
 
@@ -63,7 +63,5 @@ public class DbDriver
         }
         return resultSet;
     }
-
-
 
 }
