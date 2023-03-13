@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.service.type: LoadBalancer
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: shopping-app-tcp
+  name: shopping-app-tcp
+spec:
+  ports:
+    - name: "8080"
+      port: 8080
+      targetPort: 80
+  selector:
+    io.kompose.service: shopping-app
+  type: LoadBalancer
+status:
+  loadBalancer: {}

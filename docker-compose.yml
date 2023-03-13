@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  db:
-    image: postgres:latest
+  shopping-db:
+    image: europe-north1-docker.pkg.dev/cjgrp-379511/image-repo/db:latest
     hostname: shopping-db
     restart: always
     environment:
@@ -10,12 +10,17 @@ services:
       POSTGRES_PASSWORD: password
     ports:
     - "5432:5432"
-    volumes:
-    - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    # use below build context for a local build instead of the above image
+    #build:
+    #  context: .
 
-  app:
-    build:
-      context: ./shopping-list
+  shopping-app:
+    labels:
+      kompose.service.type: LoadBalancer
+    image: europe-north1-docker.pkg.dev/cjgrp-379511/image-repo/app:latest
+    # use below build context for a local build instead of the above image
+    #build:
+      #context: ./shopping-list
     hostname: shopping-app
     ports:
     - "8080:80"

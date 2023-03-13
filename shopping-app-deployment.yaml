@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.service.type: LoadBalancer
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: shopping-app
+  name: shopping-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: shopping-app
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.service.type: LoadBalancer
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: shopping-app
+    spec:
+      containers:
+        - env:
+            - name: DBHOST
+              value: shopping-db
+            - name: DBNAME
+              value: postgres
+            - name: DBPASSWORD
+              value: password
+            - name: DBPORT
+              value: "5432"
+            - name: DBUSER
+              value: postgres
+          image: europe-north1-docker.pkg.dev/cjgrp-379511/image-repo/app:latest
+          name: shopping-app
+          ports:
+            - containerPort: 80
+          resources: {}
+      hostname: shopping-app
+      restartPolicy: Always
+status: {}
